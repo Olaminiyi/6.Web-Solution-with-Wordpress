@@ -75,3 +75,62 @@ then edit the **"instance info"** with the **"instance id"** and **"device name 
 
 ![alt text](images/6.7.png)
 
+then click on attach. do this for the 3 Ebs volumes created.
+
+Open the linux terminal, connect to the instance using:
+
+ssh -i < Your key.pem> ubuntu@<IP-address>
+
+![alt text](images/6.8.png)
+
+
+Open the **'/etc/hostname'**
+```
+vi /etc/hostname
+```
+replace the **"IP address"** with **"webserver"**.
+
+click on **"ESC :wq + ENTER**
+
+Then run the command
+```
+hostname webserver
+```
+Then disconnect and connect for changes to take effect. This process is used to identify the terminal as web server so as to differentiate it from the database server.
+
+Use **lsblk** command to inspect what block devices are attached to the server. Notice names of your newly created devices. All devices in Linux reside in `/dev/ directory`. Inspect it with `ls /dev/` and make sure you see all 3 newly created block devices there – their names will likely be `xvdf`, `xvdh`, `xvdg`.
+
+Type this command
+```
+lsblk
+```
+![alt text](images/6.9.png)
+
+Use `df -h` command to see all mounts and free space on your server.
+
+Use `gdisk` utility to create a single partition on each of the 3 disks
+```
+sudo gdisk /dev/xvdf
+```
+type **"?"** to display the available options. Then **"p"** "which represents print the partition table".
+
+![alt text](images/6.10.png)
+
+From the options displayed, **"n"** represents **"add a new partition"**.
+
+Type **"n"** then **"p"** to display the new partiton table.
+
+![alt text](images/6.11.png)
+
+Type **"w"** to write table to disk
+
+![alt text](images/6.12.png)
+
+Repeat the process for the other 2 disks i.e  `/dev/xvdg` and `/dev/xvdh`.
+
+Use lsblk utility to view the newly configured partition on each of the 3 disks.
+```
+lsblk
+```
+![alt text](images/6.13.png)
+
