@@ -621,7 +621,8 @@ sudo vi /etc/my.cnf
 ```
 ![alt text](images/6.62.png)
 
-> [!NOTE ] In setting up our mysql configuration, we put the access as "%" whch shows we want to connect from anywhere. If we have set a particular IP address of webserver we will put in the same IP address in the bind-address.
+> [!NOTE ]
+> In setting up our mysql configuration, we put the access as "%" whch shows we want to connect from anywhere. If we have set a particular IP address of webserver we will put in the same IP address in the bind-address.
 
 Enable TCP port `80` in Inbound Rules configuration for your Web Server EC2 (enable from everywhere 0.0.0.0/0 or from your workstation’s IP)
 
