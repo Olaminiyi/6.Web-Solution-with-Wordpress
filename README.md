@@ -180,7 +180,7 @@ sudo vgs
 ```
 ![alt text](images/6.18.png)
 
-### Create Logical volumes with the physical volumes created
+### Create Logical volumes out of the volume group
 
 Use lvcreate utility to create 2 logical volumes. **apps-lv** (Use half of the PV size), and **logs-lv** (Use the remaining space of the PV size).
 
@@ -217,4 +217,54 @@ sudo mkfs -t ext4 /dev/webdata-vg/apps-lv
 sudo mkfs -t ext4 /dev/webdata-vg/logs-lv
 ```
 ![alt text](images/6.23.png)
+
+Create **"/var/www/html"** directory to store website files
+```
+sudo mkdir -p /var/www/html
+```
+Create **/home/recovery/logs** to store backup of log data
+```
+sudo mkdir -p /home/recovery/logs
+```
+Mount "/var/www/html" on "apps-lv" logical volume
+```
+sudo mount /dev/webdata-vg/apps-lv /var/www/html/
+```
+
+Use rsync utility to backup all the files in the log directory **"/var/log" into "/home/recovery/logs"**. This reqiured before mounting the file system.
+```
+sudo rsync -av /var/log/. /home/recovery/logs/
+```
+
+![alt text](images/6.24.png)
+
+Mount **"/var/log"** on **"logs-lv"** logical volume. (all the existing data on "/var/log" will be deleted).
+```
+sudo mount /dev/webdata-vg/logs-lv /var/log
+```
+Restore log files back into "/var/log" directory.
+```
+sudo rsync -av /home/recovery/logs/. /var/log
+```
+![alt text](images/6.25.png)
+
+Update **"/etc/fstab file"** so that the mount configuration will persist after restart of the server.
+
+### UPDATE THE "/ETC/FSTAB" FILE.
+
+The UUID of the device will be used to update the /etc/fstab file;
+
+check for the UUID with this command
+```
+sudo blkid
+```
+![alt text](images/6.26.png)
+
+Open the **"/etc/fstab"**
+```
+sudo vi /etc/fstab
+```
+Update **/etc/fstab** in this format using your own UUID and rememeber to remove the leading and ending quotes.
+
+![alt text](images/6.27.png)
 
