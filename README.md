@@ -268,3 +268,40 @@ Update **/etc/fstab** in this format using your own UUID and rememeber to remove
 
 ![alt text](images/6.27.png)
 
+Test the configuration by running this command. There will be no errors if everything is ok.
+```
+sudo mount -a
+```
+Reload the daemon
+```
+sudo systemctl daemon-reload
+```
+Verify your setup by running
+```
+df -h
+```
+![alt text](images/6.28.png)
+
+### PREPARE THE DATABASE SERVER.
+
+Launch a second `RedHat EC2 instance` that will have a role – **‘DB Server’** Repeat the same steps as for the Web Server, but instead of **apps-lv** create **db-lv** and mount it to **/db directory** instead of **/var/www/html/**.
+
+The `db-lv` will be used to store data for the database while, `logs-lv` will be used to store data for logs.
+```
+sudo lvcreate -n db-lv -L 14G webdata-vg
+```
+```
+sudo lvcreate -n logs-lv -L 14G webdata-vg
+```
+Verify that your Logical Volume has been created successfully by running
+```
+sudo lvs
+```
+![alt text](images/6.29.png)
+
+Verify the entire setup
+```
+sudo vgdisplay -v #view complete setup - VG, PV, and LV
+```
+![alt text](images/6.30.png)
+
