@@ -537,3 +537,55 @@ sudo systemctl status mysqld
 ```
 ![alt text](images/6.53.png)
 
+### Configure DB to work with WordPress
+```
+sudo mysql
+```
+```
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'PassWord.1';
+```
+```
+mysql> exit;
+```
+Install mysql_secure_installation for security
+```
+sudo mysql_secure_installation
+```
+![alt text](images/6.54.png)
+![alt text](images/6.55.png)
+
+**Create a database**
+
+```
+sudo mysql -p
+```
+```
+mysql> CREATE DATABASE `wordpress`;
+```
+**Create a user**
+
+```
+mysql> CREATE USER 'myuser'@'%' IDENTIFIED WITH mysql_native_password BY 'S**la@@zaa';
+```
+```
+mysql> GRANT ALL ON example_database.* TO 'myuser'@'%';
+```
+```
+mysql> exit;
+```
+**Login to the database with the new user created**
+```
+mysql -u example_user -p
+```
+```
+mysql> SHOW DATABASES;
+```
+
+![alt text](images/6.56.png)
+
+Open `MySQL` `port 3306` on `DB Server EC2`. For extra security, you shall allow access to the DB server `ONLY` from your `Web Server’s IP address`, so in the Inbound Rule configuration specify source as the server EC2 primary ip address
+
+![alt text](images/6.57.png)
+
+
+
