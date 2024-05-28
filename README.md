@@ -453,3 +453,58 @@ sudo systemctl restart httpd
 ```
 ![alt text](images/6.45.png)
 
+Copy the IP address of the webserver to the browser to see that the apache is working properly
+
+![alt text](images/6.46.png)
+
+**Download wordpress and copy wordpress to "var/www/html"**
+
+Create directory wordpress and cd into the directory.
+```
+mkdir wordpress
+```
+```
+cd wordpress
+```
+Download the wordpress file
+```
+sudo wget http://wordpress.org/latest.tar.gz
+```
+Unzip the file
+```
+sudo tar xzvf latest.tar.gz
+```
+![alt text](images/6.47.png)
+
+```
+sudo rm -rf latest.tar.gz
+```
+Copy "wordpress/wp-config-sample.php" into "wordpress/wp-config.php"
+
+> [!NOTE] wordpress/wp-config.php" will be created.
+```
+sudo cp wordpress/wp-config-sample.php wordpress/wp-config.php
+```
+Copy wordpress into "/var/www/html".
+```
+sudo cp -R wordpress/* /var/www/html/
+```
+![alt text](images/6.48.png)
+![alt text](images/6.49.png)
+
+Configure SELinux Policies
+```
+sudo chown -R apache:apache /var/www/html/
+```
+```
+sudo chcon -t httpd_sys_rw_content_t /var/www/html/ -R
+```
+```
+sudo setsebool -P httpd_can_network_connect=1
+```
+```
+sudo setsebool -P httpd_can_network_connect_db 1
+```
+![alt text](images/6.50.png)
+
+
