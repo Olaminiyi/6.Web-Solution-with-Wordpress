@@ -305,3 +305,57 @@ sudo vgdisplay -v #view complete setup - VG, PV, and LV
 ```
 ![alt text](images/6.30.png)
 
+```
+sudo lsblk
+```
+![alt text](images/6.31.png)
+
+Use **mkfs.ext4** to format the logical volumes with **ext4 filesystem**.
+```
+sudo mkfs -t ext4 /dev/webdata-vg/db-lv
+```
+```
+sudo mkfs -t ext4 /dev/webdata-vg/logs-lv
+```
+![alt text](images/6.32.png)
+
+Create db directory to store database files
+```
+sudo mkdir db
+```
+Create /home/recovery/logs to store backup of log data
+```
+sudo mkdir -p /home/recovery/logs
+```
+Mount db/ on db-lv logical volume
+```
+sudo mount /dev/webdata-vg/db-lv db/
+```
+Use rsync utility to backup all the files in the log directory /var/log into /home/recovery/logs (This is required before mounting the file system).
+```
+sudo rsync -av /var/log/. /home/recovery/logs/
+```
+Mount /var/log on logs-lv logical volume. (all the existing data on /var/log will be deleted.)
+```
+sudo mount /dev/webdata-vg/logs-lv /var/log
+```
+Restore log files back into /var/log directory
+```
+sudo rsync -av /home/recovery/logs/. /var/log
+```
+![alt text](images/6.33.png)
+
+The UUID of the device will be used to update the /etc/fstab file;
+```
+sudo blkid
+```
+![alt text](images/6.34.png)
+
+Open the "/etc/fstab" file.
+```
+sudo vi /etc/fstab
+```
+Update "/etc/fstab" in this format using your own UUID and rememeber to remove the leading and ending quotes.
+
+![alt text](images/6.35.png)
+
