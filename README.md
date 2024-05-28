@@ -588,4 +588,51 @@ Open `MySQL` `port 3306` on `DB Server EC2`. For extra security, you shall allow
 ![alt text](images/6.57.png)
 
 
+**Install MySQL client and test that you can connect from your Web Server to your DB server by using mysql-client.**
+```
+sudo yum install mysql
+```
+![alt text](images/6.58.png)
 
+**Connect to the mysql using the user created on the database sever**
+
+Connecting webserver to DBserver and Verify if you can successfully execute SHOW DATABASES; command and see a list of existing databases.
+```
+sudo mysql -u myuser -p -h <DB-Server-Private-IP-address>
+```
+![alt text](images/6.59.png)
+
+Change permissions on the "/var/www/html" directory so that apache can use wordpress.
+
+![alt text](images/6.60.png)
+
+**Edit the "/var/www/html/wp-config.php" to connect to dataabase.**
+
+![alt text](images/6.61.png)
+
+Disable the apache configuration(i.e renaming to backup)
+```
+mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf_backup
+```
+
+Open "/etc/my.cnf" and edit the file. Add [mysqld] and "bind-address=0.0.0.0".
+```
+sudo vi /etc/my.cnf
+```
+![alt text](images/6.62.png)
+
+> [!NOTE] In setting up our mysql configuration, we put the access as "%" whch shows we want to connect from anywhere. If we have set a particular IP address of webserver we will put in the same IP address in the bind-address.
+
+Enable TCP port `80` in Inbound Rules configuration for your Web Server EC2 (enable from everywhere 0.0.0.0/0 or from your workstation’s IP)
+
+![alt text](images/6.63.png)
+
+**Try to access from your browser the link to your WordPress**
+
+http://<Web-Server-Public-IP-Address>/wordpress/
+
+![alt text](images/6.64.png)
+
+Follow through the set up.
+
+**We have successfully deployed a full-scale Web Solution using WordPress Content Management System (CMS) and MySQL Relational Database Management Systsem (RDBMS).**
