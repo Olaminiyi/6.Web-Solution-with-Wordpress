@@ -359,3 +359,97 @@ Update "/etc/fstab" in this format using your own UUID and rememeber to remove t
 
 ![alt text](images/6.35.png)
 
+Test the configuration for errors.
+```
+sudo mount -a
+```
+Reload daemon
+```
+sudo systemctl daemon-reload
+```
+Verify your setup by running
+```
+df -h
+```
+![alt text](images/6.36.png)
+
+### Webserver installation
+
+Open the linux terminal, connect to the instance using:
+
+ssh -i < Your key.pem> ubuntu@<IP-address>
+
+Install WordPress on your Web Server EC2
+
+Update the repository
+```
+sudo yum -y update
+```
+![alt text](images/6.37.png)
+
+Install wget, Apache and it’s dependencies
+```
+sudo yum -y install wget httpd php php-mysqlnd php-fpm php-json
+```
+![alt text](images/6.38.png)
+
+Start Apache
+```
+sudo systemctl start httpd
+```
+Enable Apache
+```
+sudo systemctl enable httpd
+```
+Verify Apache status
+```
+sudo systemctl status httpd
+```
+![alt text](images/6.39.png)
+
+To install PHP and it’s dependencies
+```
+sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+```
+```
+sudo yum install yum-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+```
+```
+sudo yum module list php
+```
+```
+sudo yum module reset php
+```
+```
+sudo yum module enable php:remi-7.4
+```
+```
+sudo yum install php php-opcache php-gd php-curl php-mysqlnd
+```
+![alt text](images/6.40.png)
+![alt text](images/6.41.png)
+![alt text](images/6.42.png)
+![alt text](images/6.43.png)
+![alt text](images/6.44.png)
+
+Start php and set policies
+```
+sudo systemctl start php-fpm
+```
+Enable php
+```
+sudo systemctl enable php-fpm
+```
+verify php status
+```
+sudo systemctl status php-fpm
+```
+```
+sudo setsebool -P httpd_execmem 1
+```
+Restart Apache
+```
+sudo systemctl restart httpd
+```
+![alt text](images/6.45.png)
+
