@@ -508,3 +508,32 @@ sudo setsebool -P httpd_can_network_connect_db 1
 ![alt text](images/6.50.png)
 
 
+### Database Installation
+
+Install MySQL on your DB Server EC2
+
+Update the repository
+```
+sudo yum update -y
+```
+![alt text](images/6.51.png)
+
+Install mysql-server
+```
+sudo yum install mysql-server
+```
+
+![alt text](images/6.52.png)
+
+Verify that the service is up and running, if it is not running, restart the service and enable it so it will be running even after reboot:
+```
+sudo systemctl restart mysqld
+```
+```
+sudo systemctl enable mysqld
+```
+```
+sudo systemctl status mysqld
+```
+![alt text](images/6.53.png)
+
