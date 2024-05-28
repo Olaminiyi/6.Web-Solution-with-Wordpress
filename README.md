@@ -170,4 +170,51 @@ sudo pvs
 ```
 ![alt text](images/6.17.png)
 
+Use vgcreate utility to add all 3 PVs to a volume group (VG). Name the VG **webdata-vg**
+```
+sudo vgcreate webdata-vg /dev/xvdh1 /dev/xvdg1 /dev/xvdf1
+```
+Verify that your VG has been created successfully by running
+```
+sudo vgs
+```
+![alt text](images/6.18.png)
+
+### Create Logical volumes with the physical volumes created
+
+Use lvcreate utility to create 2 logical volumes. **apps-lv** (Use half of the PV size), and **logs-lv** (Use the remaining space of the PV size).
+
+The **apps-lv** will be used to store data for the Website while, **logs-lv** will be used to store data for logs.
+```
+sudo lvcreate -n apps-lv -L 14G webdata-vg
+```
+```
+sudo lvcreate -n logs-lv -L 14G webdata-vg
+```
+![alt text](images/6.19.png)
+
+Verify that your Logical Volume has been created successfully by running
+```
+sudo lvs
+```
+![alt text](images/6.20.png)
+
+Verify the entire setup
+```
+sudo vgdisplay -v #view complete setup - VG, PV, and LV
+```
+```
+sudo lsblk
+```
+![alt text](images/6.21.png)
+![alt text](images/6.22.png)
+
+Use **"mkfs.ext4"** to format the logical volumes with **"ext4"** filesystem
+```
+sudo mkfs -t ext4 /dev/webdata-vg/apps-lv
+```
+```
+sudo mkfs -t ext4 /dev/webdata-vg/logs-lv
+```
+![alt text](images/6.23.png)
 
