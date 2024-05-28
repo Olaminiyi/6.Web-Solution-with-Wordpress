@@ -50,3 +50,28 @@ then change size to **10GiB** and click on `create volume` afterwards.
 We do the same process to create three EBS volumes.
 
 ![alt text](images/6.4.png)
+
+Next, we create an EC2 instance that will serve as `web server`.
+
+We set this up by doing the following:
+
+- create an account on [AWS](https://aws.amazon.com/).
+- we create an EC2 instance by selecting **“REDHAT ENTERPRISE LINUX 9”** from Amazon Machine Image(AMI)(free tier). We will select a Redhat AMI since we are using a centos and not ubuntu.
+- we select “t2.micro(free tier eligible)”.
+- Select our keypair.
+- then go to the security group and select “a security group” review and launch.
+
+How to create an aws free tier account. click [here](https://www.youtube.com/watch?v=xxKuB9kJoYM&list=PLtPuNR8I4TvkwU7Zu0l0G_uwtSUXLckvh&index=8)
+
+This launches us into the instance as shown in the screenshot:
+
+![alt text](images/6.5.png)
+
+we then attach the EBS volumes we created to the webserver Ec2 instance.
+
+![alt text](images/6.6.png)
+
+then edit the **"instance info"** with the **"instance id"** and **"device name info"** to **"/dev/xvdf"**, **"/dev/xvdg"** and **"/dev/xvdh"** for the three volumes.
+
+![alt text](images/6.7.png)
+
