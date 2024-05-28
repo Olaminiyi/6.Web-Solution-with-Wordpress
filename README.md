@@ -98,6 +98,8 @@ hostname webserver
 ```
 Then disconnect and connect for changes to take effect. This process is used to identify the terminal as web server so as to differentiate it from the database server.
 
+### Create partition on the volumes attached to the EC2 server
+
 Use **lsblk** command to inspect what block devices are attached to the server. Notice names of your newly created devices. All devices in Linux reside in `/dev/ directory`. Inspect it with `ls /dev/` and make sure you see all 3 newly created block devices there – their names will likely be `xvdf`, `xvdh`, `xvdg`.
 
 Type this command
@@ -133,4 +135,39 @@ Use lsblk utility to view the newly configured partition on each of the 3 disks.
 lsblk
 ```
 ![alt text](images/6.13.png)
+
+### create Physical volumes on the configured partitions on the instance 
+
+Install lvm2 package using
+```
+sudo yum install lvm2
+```
+![alt text](images/6.14.png)
+
+Run
+```
+sudo lvmdiskscan 
+```
+to check for available partitions.
+
+![alt text](images/6.15.png)
+
+Use pvcreate utility to mark each of 3 disks as physical volumes (PVs) to be used by `LVM`.
+```
+sudo pvcreate /dev/xvdf1
+```
+```
+sudo pvcreate /dev/xvdg1
+```
+```
+sudo pvcreate /dev/xvdh1
+```
+![alt text](images/6.16.png)
+
+Verify that your Physical volume has been created successfully by running
+```
+sudo pvs
+```
+![alt text](images/6.17.png)
+
 
